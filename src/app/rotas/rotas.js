@@ -15,22 +15,17 @@ module.exports = app => {
     `);
   });
 
-  app.get('/livros', function(req, resp) {
+  app.get('/livros', async function(req, resp) {
     const livroDao = new LivroDao(db);
 
-    livroDao
-      .lista()
-      .then(livros =>
-        resp.marko(require('../views/livros/lista/lista.marko'), {
-          livros
-        })
-      )
-      .catch(erro => console.log(erro));
+    const livros = await livroDao.lista();
 
-    // livroDao.lista(function(erro, resultados) {
-    //   resp.marko(require('../views/livros/lista/lista.marko'), {
-    //     livros: resultados
-    //   });
-    // });
+    try {
+      resp.marko(require('../views/livros/lista/lista.marko'), {
+        livros
+      });
+    } catch (erro) {
+      console.log(erro);
+    }
   });
 };

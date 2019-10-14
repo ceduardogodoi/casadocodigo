@@ -9,7 +9,6 @@ class LivroDao {
         if (erro) {
           return reject('Não foi possível listar os livros!');
         }
-
         return resolve(resultados);
       });
     });
